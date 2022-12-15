@@ -1,0 +1,81 @@
+/* 
+ * File:   LCD.c
+ * Author: Itsarthurbih
+ *
+ * Created on October 20, 2022, 6:01 PM
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include "config.h"
+#include "LiquidCrystal.h"
+
+# define _XTAL_FREQ 1000000 
+# define but1 PORTBbits.RB0
+# define but2 PORTBbits.RB1
+# define but3 PORTBbits.RB2
+# define but4 PORTBbits.RB3
+
+int main() 
+{
+    
+    // ALL ANx input are digital
+    ADCON1 = 0x0f;
+    
+    // Data pins connected to PORTA
+    TRISC = 0x00; 
+    
+    // RS = RD0
+    // RW = RD1
+    // E  = RD2
+    TRISD = 0x00;
+    
+    // connect the LCD pins to the appropriate PORT pins
+    pin_setup(&PORTC, &PORTD);
+    
+    // initialize the LCD to be 16x2 (this is what I have, yours might be different)
+    begin(16, 2, LCD_5x8DOTS);
+    
+    clear(); //clears the screen if anything is still on memory
+    
+
+    while (1)
+    { 
+        if (but1 == 0) //if the switch or the button is high, specifically the plus one (or however long it is set for based on the delay time)
+            {
+            clear(); 
+            
+            print("I Love YOU!! <3");
+            
+            }
+        if (but2 == 0)
+        {
+            clear();
+            
+            print("You are Amazing! <3");
+        }
+        if (but3 == 0)
+        {
+            clear();
+            print("My Lovergirl <3!");
+        }
+        if (but4 == 0)
+        {
+            clear();
+            print("   Be With Me ");
+            setCursor(0, 1);
+            print("   Forever <3!");
+        }
+        else
+            {
+            home(); //stay at home, i.e. do nothing
+           
+            }
+       
+        
+    }
+    return 0;
+
+
+
+}
